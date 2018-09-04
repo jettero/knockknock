@@ -1,44 +1,47 @@
-import sys, os, shutil
-from distutils.core import setup, Extension
+#!/usr/bin/env python
 
-if sys.argv[1] != "sdist":
-    shutil.copyfile("knockknock-daemon.py", "knockknock/knockknock-daemon")
-    shutil.copyfile("knockknock-genprofile.py", "knockknock/knockknock-genprofile")
-    shutil.copyfile("knockknock-proxy.py", "knockknock/knockknock-proxy")
-    shutil.copyfile("knockknock.py", "knockknock/knockknock")
+import sys
+from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
 
-setup  (name         = 'knockknock',
-        version      = '0.8',
-        description  = 'A cryptographic single-packet port-knocker.',
-        author       = 'Moxie Marlinspike',
-        author_email = 'moxie@thoughtcrime.org',
-        url          = 'http://www.thoughtcrime.org/software/knockknock/',
-        license      = 'GPL',
-        packages     = ["knockknock", "knockknock.proxy"],
-        scripts      = ['knockknock/knockknock-daemon',
-                        'knockknock/knockknock-genprofile',
-                        'knockknock/knockknock-proxy',
-                        'knockknock/knockknock'],
-        data_files   = [("", ["minimal-firewall.sh", "knockknock-daemon.py", 
-                              "knockknock-genprofile.py", "knockknock-proxy.py", 
-                              "knockknock.py"]),
-                        ('share/knockknock', ['README', 'INSTALL', 'COPYING']),
-                        ('/etc/knockknock.d/', ['config'])]
-       )
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
 
-print "Cleaning up..."
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = ''
 
-if os.path.exists("build/"):
-    shutil.rmtree("build/")
+    def run_tests(self):
+        import shlex
+        import pytest
+        errno = pytest.main(shlex.split(self.pytest_args))
+        sys.exit(errno)
 
-try:
-    os.remove("knockknock/knockknock-proxy")
-    os.remove("knockknock/knockknock-daemon")
-    os.remove("knockknock/knockknock-genprofile")
-    os.remove("knockknock/knockknock")
+setup(name='synkk',
+    version       = '1.0.2',
+    description   = 'Syn KnockKnock',
+    author        = 'Paul Miller',
+    author_email  = 'paul@jettero.pl',
+    url           = 'https://github.com/jettero/synkk',
+    cmdclass      = {'test': PyTest},
+    packages      = find_packages(),
 
-except:
-    pass
+    tests_require = [
+        'pytest',
+        'pyyaml',
+    ],
 
-def capture(cmd):
-    return os.popen(cmd).read().strip()
+    install_requires = [
+        'click',
+        'click-config-file',
+        'uptime',
+    ],
+
+    entry_points = {
+        'console_scripts': [
+            'synkk = synkk.cmd:cli',
+            'dmesg-synkk-daemon = synkk.daemon:cli',
+        ],
+    },
+)
+

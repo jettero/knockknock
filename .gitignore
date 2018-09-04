@@ -1,4 +1,9 @@
+build
 *.pyc
-.idea
-MANIFEST
+__pycache__
+.eggs
+*.egg-info
+.pytest_cache
 dist
+file*
+wtf
