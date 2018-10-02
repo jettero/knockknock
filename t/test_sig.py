@@ -6,14 +6,14 @@ from synkk.sig import (
 )
 
 various_values = {
-    'spt': 1, 'dpt': 2, 'secret': 'testing',
+    'nonce': 1, 'dpt': 2, 'secret': 'testing',
     'spurious': "value shouldn't matter at all",
     'ack': 3, 'win': 7, 'seq': 0xfff, 'id': 3
 }
 
 def test_compute_sig():
-    kw = compute_sig(spt=3, dpt=4, secret='ohdang', something_else='ja')
-    assert kw['spt'] == 3
+    kw = compute_sig(nonce=3, dpt=4, secret='ohdang', something_else='ja')
+    assert kw['nonce'] == 3
     assert kw['dpt'] == 4
     assert kw['secret'] == 'ohdang'
     assert kw['something_else'] == 'ja'
@@ -22,7 +22,7 @@ def test_compute_sig():
     assert 'seq' in kw
 
 def test_compare_sig():
-    kw1 = compute_sig(spt=3, dpt=4, secret='ohdang')
+    kw1 = compute_sig(nonce=3, dpt=4, secret='ohdang')
     kw2 = compute_sig(**kw1)
     assert compare_sig(**kw1) is True
     assert compare_sig(**kw2) is True
@@ -30,7 +30,7 @@ def test_compare_sig():
     kwf['secret'] = 'fail'
     assert compare_sig(**kwf) is False
     kwf = kw1.copy()
-    kwf['spt'] = 6
+    kwf['nonce'] = 6
     assert compare_sig(**kwf) is False
     kws = kw1.copy()
     assert compare_sig(**kws) is True
@@ -51,7 +51,7 @@ def test_sig():
 
 def test_hmac():
     hd = HMACData.slurp(various_values)
-    assert hd.spt    == various_values['spt']
+    assert hd.nonce    == various_values['nonce']
     assert hd.dpt    == various_values['dpt']
     assert hd.secret == various_values['secret']
 
@@ -69,7 +69,7 @@ def test_sig_data():
 
 def test_nonce_data():
     nd = NonceData.slurp(various_values)
-    assert nd.spt == various_values['spt']
+    assert nd.nonce == various_values['nonce']
 
     for v,k in zip(nd, NONCE_PLAN):
         assert v == various_values[k]

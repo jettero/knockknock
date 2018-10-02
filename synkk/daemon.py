@@ -42,13 +42,13 @@ def dmesg_daemon_cmd(secret,xt_recent_file,log_level):
             for line in dmr:
                 gl = GrokLog(line)
                 if gl.passed:
-                    if gl.spt in nonces:
+                    if gl.nonce in nonces:
                         log.info(f'{gl.src} nonce repetition')
                         continue
                     if compare_sig(secret=secret, **gl.as_dict):
-                        nonces.append(gl.spt)
+                        nonces.append(gl.nonce)
                         issue = f'+{gl.src}'
-                        log.info(f'issuing {issue} to {xt_recent_file} (nonce: {gl.spt})')
+                        log.info(f'issuing {issue} to {xt_recent_file} (nonce: {gl.nonce})')
                         with open(xt_recent_file, 'w') as fh:
                             fh.write(issue)
                     else:

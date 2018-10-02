@@ -4,7 +4,7 @@ import hashlib
 #from functools import partial
 from collections import namedtuple
 
-NONCE_PLAN  = ('spt',)
+NONCE_PLAN  = ('nonce',)
 SECRET_PLAN = ('secret',)
 HMAC_PLAN   = NONCE_PLAN + ('dpt',) + SECRET_PLAN
 SIG_PLAN    = ('ack', 'win', 'seq', 'id')
