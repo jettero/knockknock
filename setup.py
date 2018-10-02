@@ -18,7 +18,7 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(name='synkk',
-    version       = '1.0.2',
+    version       = '1.0.5',
     description   = 'Syn KnockKnock',
     author        = 'Paul Miller',
     author_email  = 'paul@jettero.pl',
