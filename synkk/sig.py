@@ -7,8 +7,8 @@ from collections import namedtuple
 NONCE_PLAN  = ('nonce',)
 SECRET_PLAN = ('secret',)
 HMAC_PLAN   = NONCE_PLAN + ('dpt',) + SECRET_PLAN
-SIG_PLAN    = ('ack', 'win', 'seq', 'id')
-SIG_DETAIL  = {'ack': 4, 'win': 2, 'seq': 4, 'id': 2}
+SIG_PLAN    = ('ack', 'win', 'seq')
+SIG_DETAIL  = {'ack': 4, 'win': 2, 'seq': 4}
 
 PLANNED = set(NONCE_PLAN).union(HMAC_PLAN).union(SIG_PLAN)
 DISCOVERABLE = PLANNED - set(SECRET_PLAN)

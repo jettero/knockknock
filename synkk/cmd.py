@@ -5,7 +5,8 @@ import click
 import click_config_file
 from synkk.sig import compute_sig
 
-HPING = '{prefix} hping3 -c 1 --syn --win {win} --setack {ack} --setseq {seq} {target} -p {port} --id {id} --baseport {nonce}'
+HPING = '{prefix} hping3 -c 1 --syn --win {win} --setack {ack} ' \
+'--setseq {seq} {target} -p {port} --id {nonce}'
 
 def gencmd(secret, target='localhost', port=22, prefix=''):
     args = compute_sig(

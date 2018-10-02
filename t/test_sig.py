@@ -8,7 +8,7 @@ from synkk.sig import (
 various_values = {
     'nonce': 1, 'dpt': 2, 'secret': 'testing',
     'spurious': "value shouldn't matter at all",
-    'ack': 3, 'win': 7, 'seq': 0xfff, 'id': 3
+    'ack': 3, 'win': 7, 'seq': 0xfff
 }
 
 def test_compute_sig():

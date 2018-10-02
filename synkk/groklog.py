@@ -34,9 +34,8 @@ class GrokLog(object):
         plan_item(src='_fields', reject=True, cast=int,  regex=re.compile(r'WINDOW=(?P<win>\d+)')),
         plan_item(src='_fields', reject=True, cast=None, regex=re.compile(r'SRC=(?P<src>[\d\.\:\[\]]+)')),
         plan_item(src='_fields', reject=True, cast=None, regex=re.compile(r'DST=(?P<dst>[\d\.\:\[\]]+)')),
-        plan_item(src='_fields', reject=True, cast=int,  regex=re.compile(r'SPT=(?P<nonce>\d+)')),
         plan_item(src='_fields', reject=True, cast=int,  regex=re.compile(r'DPT=(?P<dpt>\d+)')),
-        plan_item(src='_fields', reject=True, cast=int,  regex=re.compile(r'\bID=(?P<id>\d+)')),
+        plan_item(src='_fields', reject=True, cast=int,  regex=re.compile(r'\bID=(?P<nonce>\d+)')),
     )
 
     def __init__(self, line, log_prefix=LOG_PREFIX, age_reject=0):
