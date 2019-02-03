@@ -31,6 +31,8 @@ setup(name='synkk',
     cmdclass      = {'test': PyTest},
     packages      = find_packages(),
 
+    setup_requires = [ 'setuptools_scm' ],
+
     tests_require = [
         'pytest',
         'pyyaml',
