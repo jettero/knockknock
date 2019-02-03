@@ -18,7 +18,12 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(name='synkk',
-    version       = '1.0.7',
+    use_scm_version = {
+        'write_to': 'synkk/version.py',
+        'tag_regex': r'^(?P<prefix>v)(?P<version>\d+\.\d+\.\d+)(?P<suffix>.*)?$',
+        # NOTE: use ./setup.py --version to regenerate version.py and print the
+        # computed version
+    },
     description   = 'Syn KnockKnock',
     author        = 'Paul Miller',
     author_email  = 'paul@jettero.pl',
