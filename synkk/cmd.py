@@ -25,6 +25,7 @@ def gencmd(secret, target='localhost', port=22, prefix=''):
 @click.command()
 @click.option('-g', '--go-host', is_flag=True, default=False)
 @click.option('-d', '--dry-run', is_flag=True, default=False)
+@click.option('--version',       is_flag=True, default=False)
 @click.option('-h', '--host', type=str, prompt=True)
 @click.option('-s', '--secret', type=click.Path(dir_okay=False), prompt=True)
 @click.option('-p', '--port', type=click.IntRange(0,0xffff), default=22)
@@ -32,7 +33,11 @@ def gencmd(secret, target='localhost', port=22, prefix=''):
     config_file_name=os.path.expanduser('~/.synkk.conf'),
     provider=click_config_file.configobj_provider(False,'synkk'))
 @click.argument('post', nargs=-1)
-def synkk(host,port,secret,dry_run,go_host,post):
+def synkk(host,port,secret,dry_run,go_host,post, version):
+    if version:
+        from synkk.version import version as vstr
+        print(f'{vstr}')
+        sys.exit(0)
     # setup
     dpt = port
     prefix = ''
