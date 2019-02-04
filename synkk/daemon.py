@@ -8,6 +8,7 @@ import logging
 from synkk.groklog import GrokLog
 from synkk.dmesg   import DmesgReader
 from synkk.sig     import compare_sig
+from synkk.config  import Provider
 
 # this "daemon" doesn't actually fork/fork/chdir
 # it's meant to run from systemd
@@ -26,7 +27,7 @@ class NonceRing(list):
 @click.option('-x', '--xt-recent-file', default='/proc/net/xt_recent/synkk')
 @click_config_file.configuration_option(
     config_file_name='/etc/synkk.conf',
-    provider=click_config_file.configobj_provider(False,'synkk'))
+    provider=Provider())
 def dmesg_daemon_cmd(secret,xt_recent_file,log_level):
     logging.basicConfig(level=log_level.upper(),
         datefmt='%Y-%m-%d %H:%M:%S',
