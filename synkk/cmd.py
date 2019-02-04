@@ -5,6 +5,7 @@ import random, os, sys
 import click
 import click_config_file
 from synkk.sig import compute_sig
+from synkk.config import Provider
 
 HPING = '{prefix} hping3 -c 1 --syn --win {win} --setack {ack} ' \
 '--setseq {seq} {target} -p {port} --id {nonce}'
@@ -31,7 +32,7 @@ def gencmd(secret, target='localhost', port=22, prefix=''):
 @click.option('-p', '--port', type=click.IntRange(0,0xffff), default=22)
 @click_config_file.configuration_option(
     config_file_name=os.path.expanduser('~/.synkk.conf'),
-    provider=click_config_file.configobj_provider(False,'synkk'))
+    provider=Provider())
 @click.argument('post', nargs=-1)
 def synkk(host,port,secret,dry_run,go_host,post, version):
     if version:
